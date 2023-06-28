@@ -11,6 +11,8 @@ df_porpo = pd.read_csv('./src/data/porpo.csv')
 df_valores = pd.read_csv('./src/data/valores.csv')
 df_volume = pd.read_csv('./src/data/volume.csv')
 df_cotacao = pd.read_csv('./src/data/cotacao.csv')
+df_sigla= pd.read_csv('./src/data/sigla_venda_total.csv')
+
 image = Image.open("./src/img/download.jpg")
 st.image(image)
 
@@ -27,8 +29,41 @@ with tab0:
     <p style="text-indent: 40px;"> O presente relatório fornece uma avaliação pormenorizada de nossas exportações ao longo dos últimos 15 anos. A análise é focada na contribuição percentual cumulativa de cada país para nossas exportações totais. Nossos insights são derivados de dados consolidados e apresentados em uma visualização gráfica que combina um gráfico de barras, indicando o valor total de exportações para cada país, com uma linha de percentual cumulativo que ressalta a contribuição progressiva para o total das exportações.
 
     ''', unsafe_allow_html=True)
+
+    st.markdown('''
+    # <div style="text-align: center; color: #8A2BE2;"> Mapa das Mundiais </div>
+
+    <p style="text-indent: 40px;"> Mapa de calor do valor das exportações somadas nos últimos 15 por país
+
+    ''', unsafe_allow_html=True)
     
+    lista = df_sigla.values.tolist()
     
+    fig = go.Figure(
+        data=go.Choropleth(
+            locations=[item[0] for item in lista],
+            z=[item[1] for item in lista],
+            colorscale='Viridis',
+            autocolorscale=False,
+            text=[f'{item[0]}: {item[1]}' for item in lista],
+            marker_line_color='white',
+            colorbar_title='Valor',
+        )
+    )
+
+    fig.update_layout(
+        title_text='Mapa de calor do valor exportado por País'
+
+    )
+
+    st.plotly_chart(fig)
+
+    st.write('''
+    ## Introdução
+
+    Este relatório apresenta uma análise de nossas exportações nos últimos 15 anos, especificamente, destacando a participação percentual acumulada de cada país em nossas exportações. Nossa análise é baseada em dados que foram agregados e apresentados em uma visualização gráfica, combinando um gráfico de barras que mostra o valor total das exportações para cada país e uma linha de percentual acumulado que indica a contribuição progressiva para o total de exportações.
+    
+    ''')
 
 
     color1 = 'steelblue'
