@@ -24,6 +24,7 @@ tab0, tab1, tab2 = st.tabs(["Percentual","Paises","Dados Econômicos"])
 with tab0:
 
     st.markdown('''
+
     # <div style="text-align: center; color: #8A2BE2;"> Análise das Exportações </div>
 
     <p style="text-indent: 40px;"> O presente relatório fornece uma avaliação pormenorizada de nossas exportações ao longo dos últimos 15 anos. A análise é focada na contribuição percentual cumulativa de cada país para nossas exportações totais. Nossos insights são derivados de dados consolidados e apresentados em uma visualização gráfica que combina um gráfico de barras, indicando o valor total de exportações para cada país, com uma linha de percentual cumulativo que ressalta a contribuição progressiva para o total das exportações.
@@ -31,9 +32,9 @@ with tab0:
     ''', unsafe_allow_html=True)
 
     st.markdown('''
-    # <div style="text-align: center; color: #8A2BE2;"> Mapa das Mundiais </div>
+    # <div style="text-align: center; color: #8A2BE2;"> Nossas exportações de vinho pelo mundo!!! </div>
 
-    <p style="text-indent: 40px;"> Mapa de calor do valor das exportações somadas nos últimos 15 por país
+    <p style="text-indent: 40px;">            Mapa de calor do valor das exportações somadas nos últimos 15 por país
 
     ''', unsafe_allow_html=True)
     
@@ -51,15 +52,14 @@ with tab0:
         )
     )
 
-    fig.update_layout(
-        title_text='Mapa de calor do valor exportado por País'
+    #fig.update_layout(
+    #    title_text='Mapa de calor do Valor exportados por País'
 
-    )
+    #)
 
     st.plotly_chart(fig)
 
     st.write('''
-    ## Introdução
 
     Este relatório apresenta uma análise de nossas exportações nos últimos 15 anos, especificamente, destacando a participação percentual acumulada de cada país em nossas exportações. Nossa análise é baseada em dados que foram agregados e apresentados em uma visualização gráfica, combinando um gráfico de barras que mostra o valor total das exportações para cada país e uma linha de percentual acumulado que indica a contribuição progressiva para o total de exportações.
     
@@ -93,7 +93,7 @@ with tab0:
 
 
     layout = go.Layout(
-        title="Analise de participação nas exportações por país (ultimos 15 anos)",
+        title="Analise de Pareto da participação nas exportações por país (ultimos 15 anos)",
         xaxis=dict(
             title='País exportação',
             tickangle=45,

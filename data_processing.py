@@ -5,6 +5,7 @@ import numpy as np
 
 #importação dos dados
 df = pd.read_csv("./src/data/ExpVinho.csv", sep=";")
+df_dolar = pd.read_csv("./src/data/dolar.csv", sep=";", decimal=",")
 
 #Alteração do indice
 df=df.set_index(['País'])
@@ -26,7 +27,7 @@ columns_qtd = [col for col in df.columns if '.1' not in  col]
 df_valor = df[columns_valor]
 df_valor= df_valor.rename(columns=lambda c: c.replace('.1',''))
 df_volume = df[columns_qtd]
-df_dolar = pd.read_csv("./src/data/dolar.csv", sep=";", decimal=",")
+
 
 #Adicionando a coluna e linha de Totais no dataframe de valores e volumes:
 
@@ -88,8 +89,8 @@ meses
 meses_valor = df_valor.columns
 meses_valor=meses_valor.drop("Total")
 meses_valor
-
-df_agg_valor = df_valor.melt(id_vars='País',value_vars=meses_valor,var_name='anomes', value_name="sumtOfExport")
+df_valor_ = df_valor.reset_index()
+df_agg_valor = df_valor_.melt(id_vars=['País'],value_vars=meses_valor,var_name='anomes', value_name="sumtOfExport")
 df_agg_valor= df_agg_valor.reset_index()
 
 #Criação data set de porpoção
@@ -361,7 +362,7 @@ df_agg_valor_sigla = df_agg_valor.replace({"País": dict_abr})
 df_agg_valor_sigla_total = df_agg_valor_sigla.groupby("País")["sumtOfExport"].sum()
 df_agg_valor_sigla_total=df_agg_valor_sigla_total.reset_index()
 agg = pd.DataFrame(df_agg_valor_sigla_total)
-df_vendas_sigla_total = agg.values.tolist()
+
 
 #exportanto os dataframes tratados:
 
@@ -373,4 +374,4 @@ df_total_por_ano.to_csv('./src/data/total_por_ano.csv', index=False)
 df_volume_por_ano.to_csv('./src/data/volume_por_ano.csv', index=False)
 dt2_agg_final.to_csv('./src/data/porpo.csv', index=True)
 df_cotacao.to_csv('./src/data/cotacao.csv', index=True)
-df_vendas_sigla_total.to_csv('./src/data/sigla_venda_total.csv', index=True)
+agg.to_csv('./src/data/sigla_venda_total.csv', index=False)
