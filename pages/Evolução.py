@@ -4,7 +4,7 @@ import plotly.express as px
 from plotly.subplots import make_subplots
 import streamlit as st
 from PIL import Image
-
+from prophet import Prophet
 
 st.set_page_config(page_title="Evolução", page_icon="📊")
 
