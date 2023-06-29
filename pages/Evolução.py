@@ -1,3 +1,4 @@
+
 import pandas as pd
 import plotly.graph_objects as go 
 import plotly.express as px
@@ -5,6 +6,7 @@ from plotly.subplots import make_subplots
 import streamlit as st
 from PIL import Image
 from prophet import Prophet
+
 
 st.set_page_config(page_title="Evolução", page_icon="📊")
 
@@ -15,12 +17,11 @@ df_volume_por_ano = pd.read_csv('./src/data/volume_por_ano.csv')
 df_boxplot_proj = pd.read_csv('./src/data/boxplot_projecao.csv')
 df_agg_boxplot_prophet = pd.read_csv('./src/data/previsao.csv')
 
-
 image = Image.open("./src/img/download.jpg")
 st.image(image)
 
 
-tab0, tab1, tab2, tab3 = st.tabs(["Preço Médio", "Faturamento","Volumetria","Projeção"])
+tab0, tab1, tab2, tab3= st.tabs(["Preço Médio", "Faturamento","Volumetria", "Projeção"])
 
 
 with tab0:
@@ -39,13 +40,13 @@ with tab0:
                 xaxis_tickangle=45
             ))
 
-        # Adicionando dados ao gráfico (usando um gráfico de linhas com marcadores)
     fig.add_trace(go.Scatter(x=df_resultado['Anos'], 
-                                y=df_resultado['Total'], 
-                                mode='lines+markers',
-                                name="Valor Médio Anual",
-                                hovertemplate='Ano: %{x} <br>Valor: U$ %{y}'
-                                ))
+                            y=df_resultado['Total'], 
+                            mode='lines+markers',
+                            name="Valor Médio Anual",
+                            hovertemplate='Ano: %{x} <br>Valor: U$ %{y}',
+                            line=dict(color='#8A2BE2')  # adicionando a cor roxa
+                            ))
 
     st.plotly_chart(fig)
 
@@ -66,8 +67,8 @@ with tab1:
         <p style='text-indent: 40px;'> Para o futuro, continuaremos a buscar novas oportunidades e a melhorar nossos produtos e serviços. Agradecemos a todos pelo seu apoio contínuo e confiança em nossa empresa.</p>
         """,unsafe_allow_html=True) 
 
-    line2 = px.line(df_total_por_ano, x='Anos', y='Total').update_traces(mode='lines')
-    scatter2 = px.scatter(df_total_por_ano, x='Anos', y='Total').update_traces(mode='markers', hovertemplate='Ano: %{x} <br>Valor: U$ %{y:,.2f}')    
+    line2 = px.line(df_total_por_ano, x='Anos', y='Total').update_traces(mode='lines', line=dict(color='#8A2BE2'))
+    scatter2 = px.scatter(df_total_por_ano, x='Anos', y='Total').update_traces(mode='markers', hovertemplate='Ano: %{x} <br>Valor: U$ %{y:,.2f}', marker=dict(color='purple'))    
     fig2 = go.Figure(data=line2.data + scatter2.data)    
     fig2.update_layout(
         title="Evolução do Faturamento Total (2007-2021)",
@@ -78,6 +79,8 @@ with tab1:
         )
     )
     st.plotly_chart(fig2)
+
+
     
 with tab2:
     st.markdown("""
@@ -100,10 +103,12 @@ with tab2:
                             y=df_volume_por_ano['Total'], 
                             mode='lines+markers',
                             name="Volume Anual",
-                            hovertemplate='Ano: %{x} <br>Volume: %{y}'
+                            hovertemplate='Ano: %{x} <br>Volume: %{y}',
+                            line=dict(color='#8A2BE2')
                             ))
 
     st.plotly_chart(fig3)
+
 with tab3:
 
     
@@ -117,7 +122,8 @@ with tab3:
     fig3.add_trace(go.Box(
         y=df_boxplot_proj['sumtOfExport'],
         x=df_boxplot_proj['País'],
-        name='Boxplot'
+        name='Boxplot',
+        line=dict(color='#8A2BE2')
     ))
 
     fig3.update_layout(

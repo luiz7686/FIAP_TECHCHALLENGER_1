@@ -4,6 +4,7 @@ import plotly.express as px
 from plotly.subplots import make_subplots
 import streamlit as st
 from PIL import Image
+import statsmodels.api as sm
 
 st.set_page_config(page_title="Evolução", page_icon="🌎")
 
@@ -49,6 +50,7 @@ with tab0:
             text=[f'{item[0]}: {item[1]}' for item in lista],
             marker_line_color='white',
             colorbar_title='Valor',
+            
         )
     )
 
@@ -66,8 +68,9 @@ with tab0:
     ''')
 
 
-    color1 = 'steelblue'
+    color1 = 'purple'
     color2 = 'red'
+    color3 = '#8A2BE2'
     line_size = 4
 
     df_porpo['perc_acum'] = df_porpo['perc_acum'] / 100
@@ -76,8 +79,9 @@ with tab0:
     bar = go.Bar(
         x=df_porpo['group'],
         y=df_porpo['Total'],
-       # marker_color=['grey' if x <= 0.80 else 'orange' for x in df_porpo['perc_acum']],
-        name='Valor em Milhões'
+        marker_color=[color3 if x <= 0.80 else color1 for x in df_porpo['perc_acum']],
+        name='Valor em Milhões',
+        
     )
 
     line = go.Scatter(
@@ -87,6 +91,7 @@ with tab0:
         marker=dict(color=color2, size=line_size),
         yaxis='y2',
         name='Percentual Acumulado'
+        
     )
 
     # Adicione "Others" ao final dos rótulos do eixo x
