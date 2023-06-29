@@ -1,4 +1,5 @@
 
+from prophet import Prophet
 import pandas as pd
 import plotly.graph_objects as go 
 import plotly.express as px
@@ -13,13 +14,15 @@ st.set_page_config(page_title="Evolução", page_icon="📊")
 df_resultado = pd.read_csv('./src/data/resultado.csv')
 df_total_por_ano = pd.read_csv('./src/data/total_por_ano.csv')
 df_volume_por_ano = pd.read_csv('./src/data/volume_por_ano.csv')
+df_boxplot_proj = pd.read_csv('./src/data/boxplot_projecao.csv')
+df_agg_boxplot_prophet = pd.read_csv('./src/data/previsao.csv')
 
 
 image = Image.open("./src/img/download.jpg")
 st.image(image)
 
 
-tab0, tab1, tab2= st.tabs(["Preço Médio", "Faturamento","Volumetria"])
+tab0, tab1, tab2, tab3 = st.tabs(["Preço Médio", "Faturamento","Volumetria","Projeção"])
 
 
 with tab0:
@@ -103,3 +106,70 @@ with tab2:
                             ))
 
     st.plotly_chart(fig3)
+with tab3:
+
+    
+    st.markdown("""
+    <h1 style = "text-align: center; color: #8A2BE2;">Projeção de exportação para 2022</h1>
+    <p style="text-indent: 40px;">Esta analise foi contruida com objetivo de projetar a exportação para os 10 principais países em que temos comercialização
+    """,unsafe_allow_html=True )
+
+    fig3 = go.Figure()
+
+    fig3.add_trace(go.Box(
+        y=df_boxplot_proj['sumtOfExport'],
+        x=df_boxplot_proj['País'],
+        name='Boxplot'
+    ))
+
+    fig3.update_layout(
+        title='Identificação dos outlier dos top10 países exportadors',
+        xaxis_title='Grupo',
+        yaxis_title='Valores'
+    )
+
+    st.plotly_chart(fig3)
+
+    st.markdown("""
+    <p style="text-indent: 40px;">Após retirar os registros outliers auqe estão fora do intervalo interquartil, realizamos uma projeção de regressão linear através da biblioteca Prophet
+    """,unsafe_allow_html=True )
+
+    #Crie um dicionário de DataFrames, onde cada chave corresponda a um país e o valor seja um DataFrame filtrado por país:
+    dfs_paises = {}
+    for pais in df_agg_boxplot_prophet['country'].unique():
+        dfs_paises[pais] = df_agg_boxplot_prophet[df_agg_boxplot_prophet['country'] == pais].drop('country', axis=1)
+    #Crie um modelo Prophet para cada país e ajuste-o aos dados correspondentes:
+    modelos = {}
+    for pais, df_pais in dfs_paises.items():
+        modelo = Prophet()
+        modelo.fit(df_pais)
+        modelos[pais] = modelo
+
+
+    #Instancia e ajusta os dados ao modelo
+    datas_futuras = pd.date_range(start='2022-01-01', periods=12, freq='MS')
+    datas_futuras = pd.DataFrame({'ds': datas_futuras})
+    #Faça a projeção das vendas para cada país usando os modelos Prophet correspondentes:
+    previsoes_paises = {}
+    for pais, modelo in modelos.items():
+        previsao = modelo.predict(datas_futuras)
+        previsoes_paises[pais] = previsao
+
+    for pais, previsao in previsoes_paises.items():
+        previsao.loc[previsao['yhat'] < 0, 'yhat'] = -previsao['yhat_lower']
+        previsoes_paises[pais] = previsao
+
+    fig4 = go.Figure()
+    for pais, previsao in previsoes_paises.items():
+        fig4.add_trace(go.Scatter(
+            x=previsao['ds'],
+            y=previsao['yhat'],
+            mode='lines',
+            name=pais
+        ))
+    fig4.update_layout(
+        title='Projeção de Valor exporta por País',
+        xaxis_title='Data',
+        yaxis_title='Valor Exportado Previsto'
+    )
+    st.plotly_chart(fig4)

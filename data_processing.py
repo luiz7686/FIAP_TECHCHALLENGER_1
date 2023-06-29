@@ -3,6 +3,8 @@ import pandas as pd
 import numpy as np
 
 
+
+
 #importação dos dados
 df = pd.read_csv("./src/data/ExpVinho.csv", sep=";")
 df_dolar = pd.read_csv("./src/data/dolar.csv", sep=";", decimal=",")
@@ -363,6 +365,41 @@ df_agg_valor_sigla_total = df_agg_valor_sigla.groupby("País")["sumtOfExport"].s
 df_agg_valor_sigla_total=df_agg_valor_sigla_total.reset_index()
 agg = pd.DataFrame(df_agg_valor_sigla_total)
 
+#Boxplot para projeção
+df_agg_valor_aj = df_agg_valor.loc[df_agg_valor["sumtOfExport"] > 0]
+df_agg_valor_aj = df_agg_valor_aj.loc[df_agg_valor_aj["País"] != "total"]
+df_agg_valor_aj = df_agg_valor_aj.sort_values("sumtOfExport", ascending=False)
+df_agg_valor_mean = df_agg_valor_aj.groupby(["País"])["sumtOfExport"].mean()/1000000
+df_agg_valor_mean = df_agg_valor_mean.reset_index()
+df_agg_valor_mean = df_agg_valor_mean.sort_values("sumtOfExport", ascending=False)
+df_agg_valor_mean_10 = df_agg_valor_mean.iloc[:10,:]
+df_agg_boxplot_10 = df_agg_valor_aj.merge(df_agg_valor_mean_10["País"], how="inner", on="País")
+
+# Considere que 'df' é o seu DataFrame original
+# Supondo que você deseje remover os outliers da coluna 'Valores'
+
+# Calcule os limites do boxplot
+Q1 = df_agg_boxplot_10['sumtOfExport'].quantile(0.25)
+Q3 = df_agg_boxplot_10['sumtOfExport'].quantile(0.75)
+IQR = Q3 - Q1
+lower_bound = Q1 - 1.5 * IQR
+upper_bound = Q3 + 1.5 * IQR
+
+# Crie uma nova versão do DataFrame excluindo os outliers
+df_agg_boxplot_outliers = df_agg_boxplot_10[(df_agg_boxplot_10['sumtOfExport'] >= lower_bound) & (df_agg_boxplot_10['sumtOfExport'] <= upper_bound)]
+
+#retirados os outlier vamos as projeções
+
+#Ajusta a coluna de data para a projeção
+
+#df_agg_boxplot_outliers['Data'] = pd.to_datetime(df_agg_boxplot_outliers['anomes'], format='%Y')
+df_agg_boxplot_outliers['Data'] = pd.to_datetime(df_agg_boxplot_outliers['anomes'])
+
+
+#Definir as colunas ds e y para projeção
+df_agg_boxplot_prophet = df_agg_boxplot_outliers.rename(columns={'Data': 'ds', 'sumtOfExport': 'y','País': 'country',})
+
+
 
 #exportanto os dataframes tratados:
 
@@ -375,3 +412,5 @@ df_volume_por_ano.to_csv('./src/data/volume_por_ano.csv', index=False)
 dt2_agg_final.to_csv('./src/data/porpo.csv', index=True)
 df_cotacao.to_csv('./src/data/cotacao.csv', index=True)
 agg.to_csv('./src/data/sigla_venda_total.csv', index=False)
+df_agg_boxplot_10.to_csv('./src/data/boxplot_projecao.csv')
+df_agg_boxplot_prophet.to_csv('./src/data/previsao.csv', index=False)
