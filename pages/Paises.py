@@ -233,5 +233,6 @@ with tab2:
     st.plotly_chart(fig)
     st.markdown("""
     ## <div style="text-align: center; color: #8A2BE2;"> Análise dos Dados </div>
-    <p style="text-indent: 40px;"> A análise dos dados revela variações significativas do valor por litro/U$ comercializado em relação a variação do preço do dolár, impactando diretamente no valor exportado.
+    <p style="text-indent: 40px;"> A análise dos dados revela variações significativas do valor por litro/U$ comercializado em relação a variação do preço do dolár, impactando diretamente no valor exportado, pela análise acima pondemos concluir que conforme ha aumento na cotação do dolar maior será o preço do litro do vinho
+
     """, unsafe_allow_html=True)
