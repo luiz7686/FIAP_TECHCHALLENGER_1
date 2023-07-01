@@ -14,11 +14,12 @@ st.set_page_config(page_title="Evolução", page_icon="📊")
 df_resultado = pd.read_csv('./src/data/resultado.csv')
 df_total_por_ano = pd.read_csv('./src/data/total_por_ano.csv')
 df_volume_por_ano = pd.read_csv('./src/data/volume_por_ano.csv')
-
 distribution = pd.read_csv('./src/data/base100_continente.csv')
 df_agg_grupo = pd.read_csv('./src/data/ticket_medio_americaDoSul.csv')
 df_final = pd.read_csv('./src/data/ticket_medio_continente.csv')
 df_agg_grupo_other = pd.read_csv('./src/data/ticket_medio_outrosContinente.csv')
+
+distribution = distribution.set_index("Ano")
 
 image = Image.open("./src/img/download.jpg")
 st.image(image)
