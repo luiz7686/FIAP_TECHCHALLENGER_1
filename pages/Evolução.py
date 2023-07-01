@@ -146,7 +146,6 @@ with tab3:
     st.plotly_chart(fig3)
 
     st.markdown("""
-    <h1 style = "text-align: center; color: #8A2BE2;">Análise de evolução das exportações</h1>
     <p style="text-indent: 40px;">Ticket médio do valor por litro exportado em cada continente
     """,unsafe_allow_html=True )
 
@@ -161,6 +160,10 @@ with tab3:
     st.plotly_chart(fig4)
 
 
+    st.markdown("""
+    <p style="text-indent: 40px;">Variação do Ticket Médio Versus evolução da cotação do Dolar
+    """,unsafe_allow_html=True )
+
         # Criar as linhas do gráfico
     fig5 = go.Figure()
 
@@ -172,8 +175,6 @@ with tab3:
 
     # Personalizar o layout do gráfico
     fig5.update_layout(
-        title='Variação do Ticket Médio Versus evolução da cotação do Dolar',
-        title_x=0.5,
         xaxis_title='Mês/Ano Exportação',
         yaxis_title='Valor monetário em U$'
     )
