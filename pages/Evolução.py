@@ -120,7 +120,7 @@ with tab3:
     <h1 style = "text-align: center; color: #8A2BE2;">Análise de evolução das exportações</h1>
     <p style="text-indent: 40px;">Esta analise foi construida com o objetivo de identificar os melhores paises para exportar observado a rentabilidade
     <p style="text-indent: 40px;">Identificamos que a América do Sul desde 2016 se tornou o continente mais representativo de exportação chegando a 85% do volume litro exportado
-        <p style="text-indent: 40px;">Contudo o ticket médio do valor por litro exportado é menor do que outros cotinentês
+        <p style="text-indent: 40px;">Porém o ticket médio do valor por litro exportado é menor do que outros cotinentês e impactado pela variação do dolár
         """,unsafe_allow_html=True )
 
  # Converter a distribuição em uma lista de dicionários
@@ -160,9 +160,6 @@ with tab3:
 
     st.plotly_chart(fig4)
 
-    st.markdown("""
-    <p style="text-indent: 40px;">O aumento do dolar impacta na redução de mais de 10% do tciket medio em relação aos outros continente
-    """,unsafe_allow_html=True )
 
         # Criar as linhas do gráfico
     fig5 = go.Figure()
