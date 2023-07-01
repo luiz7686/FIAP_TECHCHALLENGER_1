@@ -168,7 +168,7 @@ with tab3:
     # Criar o gráfico de linha
     for continente2 in df_agg_grupo['Continente'].unique():
         df_continente2 = df_agg_grupo[df_agg_grupo['Continente'] == continente2]
-        fig.add_trace(go.Scatter(x=df_continente2['anomes'], y=df_continente2['ticket_medio'], mode='lines', name=continente2))
+        fig5.add_trace(go.Scatter(x=df_continente2['anomes'], y=df_continente2['ticket_medio'], mode='lines', name=continente2))
 
     # Personalizar o layout do gráfico
     fig5.update_layout(
