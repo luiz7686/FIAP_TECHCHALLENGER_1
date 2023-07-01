@@ -118,9 +118,7 @@ with tab3:
     
     st.markdown("""
     <h1 style = "text-align: center; color: #8A2BE2;">Análise de evolução das exportações</h1>
-    <p style="text-indent: 40px;">Esta analise foi construida com o objetivo de identificar os melhores paises para exportar observado a rentabilidade
-    <p style="text-indent: 40px;">Identificamos que a América do Sul desde 2016 se tornou o continente mais representativo de exportação chegando a 85% do volume litro exportado
-        <p style="text-indent: 40px;">Porém o ticket médio do valor por litro exportado é menor do que outros cotinentês e impactado pela variação do dolár
+    <p style="text-indent: 40px;">Esta analise foi construida com o objetivo de identificar os melhores paises para exportar observado a rentabilidade Identificamos que a América do Sul desde 2016 se tornou o continente mais representativo de exportação chegando a 85% do volume litro exportado porém o ticket médio do valor por litro exportado é menor do que outros cotinentês e impactado pela variação do dolár
         """,unsafe_allow_html=True )
 
  # Converter a distribuição em uma lista de dicionários
