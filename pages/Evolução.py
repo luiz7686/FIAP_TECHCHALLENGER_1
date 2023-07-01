@@ -178,7 +178,7 @@ with tab3:
 
     st.markdown("""
     <h1 style = "text-align: center; color: #8A2BE2;">Análise do mercado</h1>
-    <p style="text-indent: 40px;">Com a projeção de quedo do valor do dolar e a alta representatividade do mercado a América do Sul pode ser um cotinente atrativo de investimento para exportações de vinhos
-    <p style="text-indent: 40px;">Identificamos que a América do Sul nos ultimos 5 ano representa em média de 80% das exportações realizads
+    <p style="text-indent: 40px;">Com o aumento da cotação do dólar e a alto participação da américa do sul nas exportações o ticket médio tem diminuido
+    <p style="text-indent: 40px;">Uma opção de aumentar/potencializar a rentalibilidade é diversificar para outros mercados a exportação de vinhos
 
         """,unsafe_allow_html=True )
