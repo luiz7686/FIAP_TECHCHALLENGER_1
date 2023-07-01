@@ -192,3 +192,9 @@ with tab3:
     st.plotly_chart(fig5)
 
 
+    st.markdown("""
+    <h1 style = "text-align: center; color: #8A2BE2;">Análise do mercado</h1>
+    <p style="text-indent: 40px;">Com a projeção de quedo do valor do dolar e a alta representatividade do mercado a América do Sul pode ser um cotinente atrativo de investimento para exportações de vinhos
+    <p style="text-indent: 40px;">Identificamos que a América do Sul nos ultimos 5 ano representa em média de 80% das exportações realizads
+
+        """,unsafe_allow_html=True )
