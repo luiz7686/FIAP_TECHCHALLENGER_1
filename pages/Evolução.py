@@ -15,9 +15,9 @@ df_resultado = pd.read_csv('./src/data/resultado.csv')
 df_total_por_ano = pd.read_csv('./src/data/total_por_ano.csv')
 df_volume_por_ano = pd.read_csv('./src/data/volume_por_ano.csv')
 distribution = pd.read_csv('./src/data/base100_continente.csv')
-df_agg_grupo = pd.read_csv('./src/data/ticket_medio_americaDoSul.csv')
+df_agg_grupo = pd.read_csv('./src/data/valorlitro_dolr.csv')
 df_final = pd.read_csv('./src/data/ticket_medio_continente.csv')
-df_agg_grupo_other = pd.read_csv('./src/data/ticket_medio_outrosContinente.csv')
+
 
 distribution = distribution.set_index("Ano")
 
@@ -119,8 +119,8 @@ with tab3:
     st.markdown("""
     <h1 style = "text-align: center; color: #8A2BE2;">Análise de evolução das exportações</h1>
     <p style="text-indent: 40px;">Esta analise foi construida com o objetivo de identificar os melhores paises para exportar observado a rentabilidade
-    <p style="text-indent: 40px;">Identificamos que a América do Sul nos ultimos 5 ano representa em média de 80% das exportações realizads
-
+    <p style="text-indent: 40px;">Identificamos que a América do Sul desde 2016 se tornou o continente mais representativo de exportação chegando a 85% do volume litro exportado
+        <p style="text-indent: 40px;">Contudo o ticket médio do valor por litro exportado é menor do que outros cotinentês
         """,unsafe_allow_html=True )
 
  # Converter a distribuição em uma lista de dicionários
@@ -146,13 +146,15 @@ with tab3:
     st.plotly_chart(fig3)
 
     st.markdown("""
-    <p style="text-indent: 40px;">Observamos que o ticket médio das exportações fora da américa do Sul é meior é xx%
+    <h1 style = "text-align: center; color: #8A2BE2;">Análise de evolução das exportações</h1>
+    <p style="text-indent: 40px;">Ticket médio do valor por litro exportado em cada continente
     """,unsafe_allow_html=True )
 
 
     # Gerar o gráfico de barras
     fig4 = px.bar(df_final, x='anomes', y=['ticket_medio'],barmode='group',color="Continente",
-                title='Comparação ticket médio por litro por Continente', labels={'value': 'Valor em U$' , "anomes" : "Ano e Mês de exportação"})
+                #title='Comparação ticket médio por litro por Continente',
+                 labels={'value': 'Valor em U$' , "anomes" : "Ano e Mês de exportação"})
 
     # Exibir o gráfico
 
@@ -165,28 +167,18 @@ with tab3:
         # Criar as linhas do gráfico
     fig5 = go.Figure()
 
-    # Adicionar a linha de variação do dólar
-    fig5.add_trace(go.Scatter(
-        x=df_agg_grupo['anomes'],
-        y=df_agg_grupo['cotacaoVenda'],
-        mode='lines',
-        name='Variação do Dólar'
-    ))
 
-    # Adicionar a linha de ticket médio de exportação de vinho
-    fig5.add_trace(go.Scatter(
-        x=df_agg_grupo['anomes'],
-        y=df_agg_grupo['ticket_medio'],
-        mode='lines',
-        name='Ticket Médio de Exportação de Vinho'
-    ))
+    # Criar o gráfico de linha
+    for continente2 in df_agg_grupo['Continente'].unique():
+        df_continente2 = df_agg_grupo[df_agg_grupo['Continente'] == continente2]
+        fig.add_trace(go.Scatter(x=df_continente2['anomes'], y=df_continente2['ticket_medio'], mode='lines', name=continente2))
 
-    # Definir o layout do gráfico
+    # Personalizar o layout do gráfico
     fig5.update_layout(
-        title='Variação do Dólar vs. Ticket Médio do Litro Exportado de Vinho (América do Sul)',
-        xaxis_title='Ano e Mês de exportação',
-        yaxis_title='Valor em U$'
-        
+        title='Variação do Ticket Médio Versus evolução da cotação do Dolar',
+        title_x=0.5,
+        xaxis_title='Mês/Ano Exportação',
+        yaxis_title='Valor monetário em U$'
     )
 
     # Exibir o gráfico
