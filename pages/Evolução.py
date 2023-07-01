@@ -145,17 +145,16 @@ with tab3:
 
     st.plotly_chart(fig3)
 
+    st.markdown("""
+    <p style="text-indent: 40px;">Ticket médio do valor por litro exportado em cada continente
+    """,unsafe_allow_html=True )
+
 
     # Gerar o gráfico de barras
     fig4 = px.bar(df_final, x='anomes', y=['ticket_medio'],barmode='group',color="Continente",
                 #title='Comparação ticket médio por litro por Continente',
-                 labels={'value': 'Valor em U$' , "anomes" : "Ano e Mês de exportação"})
-
-    # Criar o layout do gráfico
-    layout = go.Layout(
-        title='Ticket médio do valor por litro exportado em cada continente',
-    )
-
+                 labels={'value': 'Valor em U$' , "anomes" : "Ano e Mês de exportação"},title='Ticket médio do valor por litro exportado em cada continente')
+    
     # Exibir o gráfico
 
     st.plotly_chart(fig4)
